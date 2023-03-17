@@ -32,7 +32,7 @@
 				   - UNPOOLED: 사용X
 			 -->
 			<dataSource type="POOLED">
-				<property name="driver" value="oracle.jdbc.oracleDriver"/>			
+				<property name="driver" value="oracle.jdbc.driver.oracleDriver"/>			
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>			
 				<property name="username" value="mybatis"/>			
 				<property name="password" value="mybatis"/>			
