@@ -14,7 +14,8 @@
 	
 	</typeAliases>
 
-	<environments default="">
+	<!-- * environment: mybatis에서 연동할 DB정보들을 등록하는 영역 / 예전에 driver.properties에서 썼던 것들. DB 여러개도 등록 가능 -->
+	<environments default="development">
 		<environment id="development">
 			<!-- 
 				* transactionManager는 JDBC / MANAGED 둘 중 하나를 선택할 수 있음
@@ -22,8 +23,26 @@
 				- MANAGED: 트랜잭션에 대해서 어떠한 영향도 행사하지 않겠다.(자동 commit)
 			 -->
 			<transactionManager type="JDBC"/>
+			<!-- 
+				* dataSource는 POOLED와 UNPOOLED 둘 중 하나 선택할 수 있음(ConnectionPool 사용여부)
+				
+				>> ConnectionPool 사용: Connection 객체를 담아 둘 수 있는 영역(Connection 수영장)
+									   한 번 사용된 Connection 객체를 담아두면 재사용해서 쓸 수 있음
+				   - POOLED: 사용
+				   - UNPOOLED: 사용X
+			 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.oracleDriver"/>			
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>			
+				<property name="username" value="mybatis"/>			
+				<property name="password" value="mybatis"/>			
+			</dataSource>
 		
 		</environment>
 	</environments>
 	
+	<!-- * mapper: 실행할 sql문들을 기록해 둔 mapper 파일들을 등록하는 영역 -->
+	<mappers>
+		<mapper resource=""/>	
+	</mappers>
 </configuration>
