@@ -17,7 +17,7 @@
 		
 		* SELECT문
 		<select id="각 sql식별자" [parameterType="전달받은 자바타입(vo일 경우= 풀클래스명 | 별칭)"
-					resultType="결과반환타입"]>
+					resultType|resultMap="결과반환타입"]>
 		실행했을 때 결과가 매번 달라짐
 		count(*) -> 전체행수: int
 		USER_NAME => 이름: String
@@ -28,7 +28,19 @@
 		</select>	
 	 -->
 	 
-	 <select id="loginMember" parameterType="Member">
+	 <!-- 
+	 	* resultMap 마이바티스의 핵심 기능 중 하나!
+	 	  ResultSet으로부터 조회 된 컬럼값 하나씩 뽑아서 내가 지정한 vo객체에 각 필드에 담는(매핑) JDBC 코드를 줄여주는 역할 수행
+	 	  
+	 	  <resultMap id="식별자" type="조회결과를 담아서 반환하고자 하는 vo객체의 타입>
+ 	  			<result column = "조회결과를 뽑고자하는 db컬럼명" property(java)="해당 결과를 담고자하는 필드명"/>
+ 	  			<result column = "조회결과를 뽑고자하는 db컬럼명" property(java)="해당 결과를 담고자하는 필드명"/>
+ 	  			<result column = "조회결과를 뽑고자하는 db컬럼명" property(java)="해당 결과를 담고자하는 필드명"/>
+	 	  </resultMap>
+	  -->
+	 
+	 <select id="loginMember" parameterType="Member" resultMap="">
+	 
 		 select
 		       user_no
 		     , user_id
