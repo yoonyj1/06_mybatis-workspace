@@ -50,8 +50,11 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member loginMember(Member m) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		Member loginMember = mDao.loginMember(sqlSession, m);
+		
+		return loginMember;
 	}
 
 	@Override
