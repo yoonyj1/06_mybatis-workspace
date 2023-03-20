@@ -1,4 +1,4 @@
-package mybatisProject.com.kh.mybatis.member.controller;
+package com.kh.mybatis.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

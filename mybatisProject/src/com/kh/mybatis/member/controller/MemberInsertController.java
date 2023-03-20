@@ -1,4 +1,4 @@
-package mybatisProject.com.kh.mybatis.member.controller;
+package com.kh.mybatis.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mybatisProject.com.kh.mybatis.member.model.vo.Member;
+import com.kh.mybatis.member.model.service.MemberServiceImpl;
+import com.kh.mybatis.member.model.vo.Member;
 
 /**
  * Servlet implementation class MemberInsertController
@@ -41,7 +42,14 @@ public class MemberInsertController extends HttpServlet {
 		
 		Member m = new Member(userId, userPwd, userName, email, birthday, gender, phone, address);
 		
+		int result = new MemberServiceImpl().insertMember(m);
 		
+		if(result > 0) { // 성공 => 메인페이지
+			response.sendRedirect(request.getContextPath());
+		} else { // 실패 => 에러페이지(에러문구 담아서)
+			request.setAttribute("errorMsg", "회원가입 실패");
+			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
+		}
 	}
 
 	/**
