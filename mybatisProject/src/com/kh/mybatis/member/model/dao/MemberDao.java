@@ -44,6 +44,10 @@ public class MemberDao {
 	}
 	
 	public Member loginMember(SqlSession sqlSession, Member m) {
-		
+		// selectOne 메소드: 한 행 조회할 때 쓰는 메소드 / 조회결과가 없다면 null 반환
+		/* Member loginMember = sqlSession.selectOne("memberMapper.loginMember", m);
+		 * return loginMember;
+		 */ 
+		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 }

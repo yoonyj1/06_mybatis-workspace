@@ -6,22 +6,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.kh.mybatis.member.model.service.MemberServiceImpl;
-import com.kh.mybatis.member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class LogoutController
  */
-@WebServlet("/login.me")
-public class LoginController extends HttpServlet {
+@WebServlet("/logout.me")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public LogoutController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,23 +26,11 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
+		request.getSession().removeAttribute("loginUser");
 		
-		Member m = new Member();
+		request.getSession().setAttribute("alertMsg", "로그아웃 완료!");
 		
-		m.setUserId(userId);
-		m.setUserPwd(userPwd);
-		
-		Member loginUser = new MemberServiceImpl().loginMember(m);
-		
-		if(loginUser == null) { // 로그인 실패
-			request.setAttribute("errorMsg", "로그인 실패");
-			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
-		} else { // 로그인 성공
-			request.getSession().setAttribute("loginUser", loginUser);
-			response.sendRedirect(request.getContextPath());
-		}
+		response.sendRedirect(request.getContextPath());
 	}
 
 	/**

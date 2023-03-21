@@ -44,6 +44,12 @@
 </style>
 </head>
 <body>
+	<c:if test="${ not empty alertMsg }">
+		<script>
+			alert("${ alertMsg }");
+		</script>
+		<% request.getSession().removeAttribute("alertMsg"); %>
+	</c:if>
     <h1 align="center">Welcome to MyBatis World</h1>
     <br>
 
@@ -77,12 +83,12 @@
 		            <table>
 		                <tr>
 		                    <td colspan="2">
-		                        <h3>xxx님 환영합니다.</h3>
+		                        <h3>${ loginUser.userName }님 환영합니다.</h3>
 		                    </td>
 		                </tr>
 		                <tr>
 		                    <td><a href="#">마이페이지</a></td>
-		                    <td><a href="#">로그아웃</a></td>
+		                    <td><a href="logout.me">로그아웃</a></td>
 		                </tr>
 		            </table>
 		         </div>

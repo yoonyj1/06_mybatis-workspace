@@ -52,9 +52,11 @@ public class MemberServiceImpl implements MemberService{
 	public Member loginMember(Member m) {
 		SqlSession sqlSession = Template.getSqlSession();
 		
-		Member loginMember = mDao.loginMember(sqlSession, m);
+		Member loginUser = mDao.loginMember(sqlSession, m);
 		
-		return loginMember;
+		sqlSession.close();
+		
+		return loginUser;
 	}
 
 	@Override
