@@ -63,5 +63,7 @@ public class BoardDao {
 		int limit = pi.getBoardLimt();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);	
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectSearchList", map, rowBounds);
 	}
 }
