@@ -2,6 +2,7 @@ package com.kh.mybatis.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,19 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.mybatis.board.model.service.BoardServiceImpl;
 import com.kh.mybatis.board.model.vo.Board;
-import com.kh.mybatis.board.model.vo.Reply;
+import com.kh.mybatis.common.model.vo.PageInfo;
+import com.kh.mybatis.common.template.Pagination;
 
 /**
- * Servlet implementation class BoardDetailController
+ * Servlet implementation class BoardSearchController
  */
-@WebServlet("/detail.bo")
-public class BoardDetailController extends HttpServlet {
+@WebServlet("/search.bo")
+public class BoardSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDetailController() {
+    public BoardSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,30 +34,26 @@ public class BoardDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int boardNo = Integer.parseInt(request.getParameter("bno"));
+		request.setCharacterEncoding("UTF-8");
 		
-		BoardServiceImpl bService = new BoardServiceImpl(); 
-		// BoardService bService = new BoardServiceImpl();
+		String condition = request.getParameter("condition");
+		String keyword = request.getParameter("keyword");
 		
-		// 1. 조회수 증가시키는 서비스
-		int result = bService.increaseCount(boardNo);
+		// 담고싶으나 담을 vo가 없음
+		// 1) 나만의 vo객체를 만드는 방법
+		// 2) HashMap 이용
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
 		
-		if(result > 0) {
-			// 2. 해당 게시글 상세조회 서비스
-			Board b = bService.selectBoard(boardNo);
-			
-			// 3. 해당 게시글에 딸린 댓글리스트 조회 서비스
-			ArrayList<Reply> list = bService.selectReplyList(boardNo);
-			
-			request.setAttribute("b", b);
-			request.setAttribute("list", list);
-			
-			request.getRequestDispatcher("WEB-INF/views/board/boardDetailView.jsp").forward(request, response);
-			
-		} else {
-			request.setAttribute("errorPage", "상세조회 실패!");
-			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
-		}
+		BoardServiceImpl bService = new BoardServiceImpl();
+		// 검색 게시글의 총 개수 구하는 서비스
+		int searchCount = bService.selectSearchCount(map);
+		int currentPage = Integer.parseInt(request.getParameter("cpage"));
+		
+		PageInfo pi = Pagination.getPageInfo(searchCount, currentPage, 10, 5);
+		
+		ArrayList<Board> list = bService.selectSearchList(map, pi);
 	}
 
 	/**
