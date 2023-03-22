@@ -36,8 +36,17 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int increaseCount(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlSession sqlSession = getSqlSession();
+		
+		int result = bDao.increaseCount(sqlSession, boardNo);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
 	}
 
 	@Override

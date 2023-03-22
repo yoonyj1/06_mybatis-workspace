@@ -33,5 +33,13 @@
 	where b.status = 'Y'
 	order by board_no desc
 	</select>
+	
+	<update id="increaseCount" parameterType="_int">
+		update
+			board
+		set count = count + 1
+		where board_no = #{boardNo}
+		and status = 'Y'
+	</update>
 </mapper>
   

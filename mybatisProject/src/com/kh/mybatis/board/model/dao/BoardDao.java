@@ -39,4 +39,8 @@ public class BoardDao {
 		
 		return list;
 	}
+	
+	public int increaseCount(SqlSession sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.increaseCount", boardNo);
+	}
 }
