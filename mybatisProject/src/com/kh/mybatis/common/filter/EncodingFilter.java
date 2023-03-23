@@ -35,7 +35,8 @@ public class EncodingFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 		
-		chain.doFilter(request, response);
+		chain.doFilter(request, response); // 현재 필터가 최종 필터일 경우 => Servlet을 호출하는 구문
+										   // 현재 필터가 최총 필터가 아닐 경우 => 또 다른 필터를 호출하는 구문
 	}
 
 	/**
